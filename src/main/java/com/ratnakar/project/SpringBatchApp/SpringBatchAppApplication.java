@@ -7,10 +7,12 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableBatchProcessing
-@ComponentScan({"com.ratnakar.project.SpringBatchApp.configuration",
-"com.ratnakar.project.SpringBatchApp.service"})
+@ComponentScan({
+		"com.ratnakar.project.SpringBatchApp.configuration",
+		"com.ratnakar.project.SpringBatchApp.service",
+		"com.ratnakar.project.SpringBatchApp.listener"
+})
 public class SpringBatchAppApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBatchAppApplication.class, args);
 
