@@ -10,7 +10,10 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan({
 		"com.ratnakar.project.SpringBatchApp.configuration",
 		"com.ratnakar.project.SpringBatchApp.service",
-		"com.ratnakar.project.SpringBatchApp.listener"
+		"com.ratnakar.project.SpringBatchApp.listener",
+		"com.ratnakar.project.SpringBatchApp.reader",
+		"com.ratnakar.project.SpringBatchApp.processor",
+		"com.ratnakar.project.SpringBatchApp.writer"
 })
 public class SpringBatchAppApplication {
 	public static void main(String[] args) {

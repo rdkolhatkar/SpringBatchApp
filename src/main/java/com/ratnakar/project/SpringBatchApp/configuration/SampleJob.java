@@ -2,7 +2,10 @@ package com.ratnakar.project.SpringBatchApp.configuration;
 
 import com.ratnakar.project.SpringBatchApp.listener.FirstJobListener;
 import com.ratnakar.project.SpringBatchApp.listener.FirstStepListener;
+import com.ratnakar.project.SpringBatchApp.processor.FirstItemProcessor;
+import com.ratnakar.project.SpringBatchApp.reader.FirstItemReader;
 import com.ratnakar.project.SpringBatchApp.service.SecondTasklet;
+import com.ratnakar.project.SpringBatchApp.writer.FirstItemWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
@@ -30,6 +33,12 @@ public class SampleJob {
     private FirstJobListener firstJobListener;
     @Autowired
     private FirstStepListener firstStepListener;
+    @Autowired
+    private FirstItemReader firstItemReader;
+    @Autowired
+    private FirstItemProcessor firstItemProcessor;
+    @Autowired
+    private FirstItemWriter firstItemWriter;
 
     /*
     @Bean
@@ -40,7 +49,7 @@ public class SampleJob {
                 .build();
     }
     */
-    @Bean
+//    @Bean
     public Job firstJob(){
         return jobBuilderFactory.get("First Job")
                 .incrementer(new RunIdIncrementer())
@@ -88,6 +97,25 @@ public class SampleJob {
                  .tasklet(secondTasklet)
                  .build();
      }
+
+     @Bean
+     public Job secondJob(){
+         return jobBuilderFactory.get("Second Job")
+                     .incrementer(new RunIdIncrementer())
+                 .start(firstChunkStep())
+                 .build();
+
+     }
+
+     private Step firstChunkStep(){
+         return stepBuilderFactory.get("First Chunk Step")
+                 .<Integer, Long>chunk(3)
+                 .reader(firstItemReader)
+                 .processor(firstItemProcessor)
+                 .writer(firstItemWriter)
+                 .build();
+     }
+
 
 
 }
