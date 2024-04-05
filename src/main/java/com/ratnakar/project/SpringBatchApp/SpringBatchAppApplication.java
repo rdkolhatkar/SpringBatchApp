@@ -13,7 +13,8 @@ import org.springframework.context.annotation.ComponentScan;
 		"com.ratnakar.project.SpringBatchApp.listener",
 		"com.ratnakar.project.SpringBatchApp.reader",
 		"com.ratnakar.project.SpringBatchApp.processor",
-		"com.ratnakar.project.SpringBatchApp.writer"
+		"com.ratnakar.project.SpringBatchApp.writer",
+		"com.ratnakar.project.SpringBatchApp.controller"
 })
 public class SpringBatchAppApplication {
 	public static void main(String[] args) {

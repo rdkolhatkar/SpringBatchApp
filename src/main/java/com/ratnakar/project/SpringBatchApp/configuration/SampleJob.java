@@ -49,7 +49,7 @@ public class SampleJob {
                 .build();
     }
     */
-//    @Bean
+    @Bean
     public Job firstJob(){
         return jobBuilderFactory.get("First Job")
                 .incrementer(new RunIdIncrementer())
@@ -103,6 +103,7 @@ public class SampleJob {
          return jobBuilderFactory.get("Second Job")
                      .incrementer(new RunIdIncrementer())
                  .start(firstChunkStep())
+                 .next(secondStep())
                  .build();
 
      }
