@@ -1,5 +1,6 @@
 package com.ratnakar.project.SpringBatchApp.controller;
 
+import com.ratnakar.project.SpringBatchApp.service.JobService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
@@ -34,19 +35,13 @@ public class JobController {
     @Autowired
     Job secondJob;
 
+    @Autowired
+    JobService jobService;
+
     @GetMapping("/start/{jobName}")
     public String startJob(@PathVariable String jobName) throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
-        Map<String, JobParameter> parameterMap = new HashMap<>();
-        parameterMap.put("currentTime", new JobParameter(System.currentTimeMillis()));
-
-        JobParameters jobParameters = new JobParameters(parameterMap);
-
-        if(jobName.equals("First Job")){
-            jobLauncher.run(firstJob, jobParameters);
-        } else if (jobName.equals("Second Job")) {
-            jobLauncher.run(secondJob, jobParameters);
-        }
+        jobService.startJob(jobName);
 
         return "Job Started....";
 

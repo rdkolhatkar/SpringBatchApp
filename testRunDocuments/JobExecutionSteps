@@ -1,3 +1,6 @@
 Program Arguments:
 run={"Arguments which you want to set for job execution. Key-Value Pair"}
 Example: run=one
+
+REST API:
+GET :-  http://localhost:8080/api/job/start/FirstJob
