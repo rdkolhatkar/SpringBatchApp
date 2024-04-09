@@ -1,5 +1,6 @@
 package com.ratnakar.project.SpringBatchApp.service;
 
+import com.ratnakar.project.SpringBatchApp.request.JobParamsRequest;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
@@ -11,6 +12,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -28,13 +30,17 @@ public class JobService {
     Job secondJob;
 
     @Async
-    public void startJob( String jobName) throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+    public void startJob(String jobName, List<JobParamsRequest> jobParamsRequestList) throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
 
         Map<String, JobParameter> parameterMap = new HashMap<>();
+
         parameterMap.put("currentTime", new JobParameter(System.currentTimeMillis()));
 
-        JobParameters jobParameters = new JobParameters(parameterMap);
+        jobParamsRequestList.stream().forEach(jobParamsReq -> {
+            parameterMap.put(jobParamsReq.getParamKey(), new JobParameter(jobParamsReq.getParamValue()));
+        });
 
+        JobParameters jobParameters = new JobParameters(parameterMap);
 
         try {
 
