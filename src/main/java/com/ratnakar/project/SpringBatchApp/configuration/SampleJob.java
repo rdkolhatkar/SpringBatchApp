@@ -2,6 +2,7 @@ package com.ratnakar.project.SpringBatchApp.configuration;
 
 import com.ratnakar.project.SpringBatchApp.listener.FirstJobListener;
 import com.ratnakar.project.SpringBatchApp.listener.FirstStepListener;
+import com.ratnakar.project.SpringBatchApp.model.StudentCsv;
 import com.ratnakar.project.SpringBatchApp.processor.FirstItemProcessor;
 import com.ratnakar.project.SpringBatchApp.reader.FirstItemReader;
 import com.ratnakar.project.SpringBatchApp.service.SecondTasklet;
@@ -14,10 +15,17 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
+
+import java.io.File;
 
 
 @Configuration
@@ -107,7 +115,7 @@ public class SampleJob {
                  .build();
 
      }
-
+     /*
      private Step firstChunkStep(){
          return stepBuilderFactory.get("First Chunk Step")
                  .<Integer, Long>chunk(3)
@@ -115,6 +123,39 @@ public class SampleJob {
                  .processor(firstItemProcessor)
                  .writer(firstItemWriter)
                  .build();
+     }
+     */
+
+    private Step firstChunkStep(){
+        return stepBuilderFactory.get("First Chunk Step")
+                .<StudentCsv, StudentCsv>chunk(3)
+                .reader(flatFileItemReader())
+               // .processor(firstItemProcessor)
+                .writer(firstItemWriter)
+                .build();
+    }
+
+     public FlatFileItemReader<StudentCsv> flatFileItemReader(){
+         FlatFileItemReader<StudentCsv> flatFileItemReader = new FlatFileItemReader<StudentCsv>();
+
+         flatFileItemReader.setResource(new FileSystemResource(new File("E:\\SpringProject\\SpringBatchApplication\\SpringBatchApp\\InputFiles\\students.csv")));
+         flatFileItemReader.setLineMapper(new DefaultLineMapper<StudentCsv>(){
+             {
+                 setLineTokenizer(new DelimitedLineTokenizer(){
+                     {
+                         setNames("ID", "First Name", "Last Name", "Email");
+                     }
+                 });
+             setFieldSetMapper(new BeanWrapperFieldSetMapper<StudentCsv>(){
+                 {
+                     setTargetType(StudentCsv.class);
+                 }
+             });
+             }
+         });
+
+        flatFileItemReader.setLinesToSkip(1);
+         return flatFileItemReader;
      }
 
 
