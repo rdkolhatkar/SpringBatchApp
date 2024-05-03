@@ -3,4 +3,39 @@ run={"Arguments which you want to set for job execution. Key-Value Pair"}
 Example: run=one
 
 REST API:
+-------------------------------------------------------------------------------
+FIRST JOB USING API:
 GET :-  http://localhost:8080/api/job/start/FirstJob
+-------------------------------------------------------------------------------
+SECOND JOB USING API
+A) Start Second Job :
+
+GET :- http://localhost:8080/api/job/start/Second Job
+Request Body:
+[
+    {
+        "paramKey": "test",
+        "paramValue": "test123"
+    },
+    {
+         "paramKey": "abcd",
+        "paramValue": "abcd123"
+    }
+]
+
+B) Stop Second Job:
+
+GET :- http://localhost:8080/api/job/stop/{Job Execution Number}
+Request Body:
+[
+    {
+        "paramKey": "test",
+        "paramValue": "test123"
+    },
+    {
+         "paramKey": "abcd",
+        "paramValue": "abcd123"
+    }
+]
+----------------------------------------------------------------------------------------
+

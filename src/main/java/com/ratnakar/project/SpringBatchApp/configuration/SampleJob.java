@@ -135,6 +135,7 @@ public class SampleJob {
                 .build();
     }
 
+    /*
      public FlatFileItemReader<StudentCsv> flatFileItemReader(){
          FlatFileItemReader<StudentCsv> flatFileItemReader = new FlatFileItemReader<StudentCsv>();
 
@@ -157,6 +158,56 @@ public class SampleJob {
         flatFileItemReader.setLinesToSkip(1);
          return flatFileItemReader;
      }
+     */
+
+    /*
+    public FlatFileItemReader<StudentCsv> flatFileItemReader(){
+        FlatFileItemReader<StudentCsv> flatFileItemReader = new FlatFileItemReader<StudentCsv>();
+
+        flatFileItemReader.setResource(new FileSystemResource(new File("E:\\SpringProject\\SpringBatchApplication\\SpringBatchApp\\InputFiles\\StudentList.csv")));
+        flatFileItemReader.setLineMapper(new DefaultLineMapper<StudentCsv>(){
+            {
+                setLineTokenizer(new DelimitedLineTokenizer("|"){
+                    {
+                        setNames("ID", "First Name", "Last Name", "Email");
+                    }
+                });
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<StudentCsv>(){
+                    {
+                        setTargetType(StudentCsv.class);
+                    }
+                });
+            }
+        });
+
+        flatFileItemReader.setLinesToSkip(1);
+        return flatFileItemReader;
+    }
+    */
+    public FlatFileItemReader<StudentCsv> flatFileItemReader(){
+        FlatFileItemReader<StudentCsv> flatFileItemReader = new FlatFileItemReader<StudentCsv>();
+
+        flatFileItemReader.setResource(new FileSystemResource(new File("E:\\SpringProject\\SpringBatchApplication\\SpringBatchApp\\InputFiles\\StudentList.csv")));
+        flatFileItemReader.setLineMapper(new DefaultLineMapper<StudentCsv>(){
+            {
+                setLineTokenizer(new DelimitedLineTokenizer(){
+                    {
+                        setNames("ID", "First Name", "Last Name", "Email");
+                        setDelimiter("|");
+                    }
+                });
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<StudentCsv>(){
+                    {
+                        setTargetType(StudentCsv.class);
+                    }
+                });
+            }
+        });
+
+        flatFileItemReader.setLinesToSkip(1);
+        return flatFileItemReader;
+    }
+
 
 
 
