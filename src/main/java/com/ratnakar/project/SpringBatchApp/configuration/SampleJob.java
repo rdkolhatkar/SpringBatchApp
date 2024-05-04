@@ -12,6 +12,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -21,6 +22,7 @@ import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
@@ -106,6 +108,7 @@ public class SampleJob {
                  .build();
      }
 
+     /*
      @Bean
      public Job secondJob(){
          return jobBuilderFactory.get("Second Job")
@@ -115,6 +118,7 @@ public class SampleJob {
                  .build();
 
      }
+     */
      /*
      private Step firstChunkStep(){
          return stepBuilderFactory.get("First Chunk Step")
@@ -125,7 +129,7 @@ public class SampleJob {
                  .build();
      }
      */
-
+    /*
     private Step firstChunkStep(){
         return stepBuilderFactory.get("First Chunk Step")
                 .<StudentCsv, StudentCsv>chunk(3)
@@ -134,6 +138,17 @@ public class SampleJob {
                 .writer(firstItemWriter)
                 .build();
     }
+    */
+    /*
+     private Step firstChunkStep(){
+         return stepBuilderFactory.get("First Chunk Step")
+                 .<StudentCsv, StudentCsv>chunk(3)
+                 .reader(flatFileItemReader(null))
+                 // .processor(firstItemProcessor)
+                 .writer(firstItemWriter)
+                 .build();
+     }
+     */
 
     /*
      public FlatFileItemReader<StudentCsv> flatFileItemReader(){
@@ -184,6 +199,7 @@ public class SampleJob {
         return flatFileItemReader;
     }
     */
+    /*
     public FlatFileItemReader<StudentCsv> flatFileItemReader(){
         FlatFileItemReader<StudentCsv> flatFileItemReader = new FlatFileItemReader<StudentCsv>();
 
@@ -207,6 +223,35 @@ public class SampleJob {
         flatFileItemReader.setLinesToSkip(1);
         return flatFileItemReader;
     }
+    */
+
+    /*
+    @StepScope
+    @Bean
+    public FlatFileItemReader<StudentCsv> flatFileItemReader(@Value("#{jobParameters['inputFile']}") FileSystemResource fileSystemResource){
+        FlatFileItemReader<StudentCsv> flatFileItemReader = new FlatFileItemReader<StudentCsv>();
+
+        flatFileItemReader.setResource(fileSystemResource);
+        flatFileItemReader.setLineMapper(new DefaultLineMapper<StudentCsv>(){
+            {
+                setLineTokenizer(new DelimitedLineTokenizer(){
+                    {
+                        setNames("ID", "First Name", "Last Name", "Email");
+                        setDelimiter("|");
+                    }
+                });
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<StudentCsv>(){
+                    {
+                        setTargetType(StudentCsv.class);
+                    }
+                });
+            }
+        });
+
+        flatFileItemReader.setLinesToSkip(1);
+        return flatFileItemReader;
+    }
+    */
 
 
 
