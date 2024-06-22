@@ -3,6 +3,7 @@ package com.ratnakar.project.SpringBatchApp.configuration;
 import com.ratnakar.project.SpringBatchApp.listener.FirstJobListener;
 import com.ratnakar.project.SpringBatchApp.listener.FirstStepListener;
 import com.ratnakar.project.SpringBatchApp.model.StudentCsv;
+import com.ratnakar.project.SpringBatchApp.model.StudentJson;
 import com.ratnakar.project.SpringBatchApp.processor.FirstItemProcessor;
 import com.ratnakar.project.SpringBatchApp.reader.FirstItemReader;
 import com.ratnakar.project.SpringBatchApp.service.SecondTasklet;
@@ -20,6 +21,8 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.json.JacksonJsonObjectReader;
+import org.springframework.batch.item.json.JsonItemReader;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -118,7 +121,18 @@ public class SampleJob {
                  .build();
 
      }
-     */
+      */
+
+    @Bean
+    public Job secondJob(){
+        return jobBuilderFactory.get("Second Job")
+                .incrementer(new RunIdIncrementer())
+                .start(firstChunkStep())
+                .next(secondStep())
+                .build();
+
+    }
+
      /*
      private Step firstChunkStep(){
          return stepBuilderFactory.get("First Chunk Step")
@@ -149,6 +163,15 @@ public class SampleJob {
                  .build();
      }
      */
+
+    private Step firstChunkStep(){
+        return stepBuilderFactory.get("First Chunk Step")
+                .<StudentJson, StudentJson>chunk(3)
+                .reader(jsonItemReader(null))
+                // .processor(firstItemProcessor)
+                .writer(firstItemWriter)
+                .build();
+    }
 
     /*
      public FlatFileItemReader<StudentCsv> flatFileItemReader(){
@@ -252,6 +275,18 @@ public class SampleJob {
         return flatFileItemReader;
     }
     */
+
+    @StepScope
+    @Bean
+    public JsonItemReader<StudentJson> jsonItemReader(@Value("#{jobParameters['inputFile']}") FileSystemResource fileSystemResource) {
+        JsonItemReader<StudentJson> jsonItemReader = new JsonItemReader<StudentJson>();
+        jsonItemReader.setResource(fileSystemResource);
+        jsonItemReader.setJsonObjectReader(new JacksonJsonObjectReader<>(StudentJson.class));
+        jsonItemReader.setMaxItemCount(8); //Reading till 8th value skipping values after number 8
+        jsonItemReader.setCurrentItemCount(2); //Reading after skipping first 2 values
+
+    return jsonItemReader;
+    }
 
 
 

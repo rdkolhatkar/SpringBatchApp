@@ -1,6 +1,8 @@
 Program Arguments:
 run={"Arguments which you want to set for job execution. Key-Value Pair"}
 Example: run=one
+inputFile=E:\\SpringProject\\SpringBatchApplication\\SpringBatchApp\\InputFiles\\StudentList.csv
+inputFile=E:\\SpringProject\\SpringBatchApplication\\SpringBatchApp\\InputFiles\\StudentList.json
 
 REST API:
 -------------------------------------------------------------------------------

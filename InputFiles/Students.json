@@ -1,61 +1,61 @@
 [
   {
     "id" : 1,
-    "firstName" : "Yug",
+    "first_Name" : "Yug",
     "lastName" : "Bhakshanar",
     "email" : "yug@gmail.com"
   },
   {
     "id" : 2,
-    "firstName" : "Yamini",
+    "first_Name" : "Yamini",
     "lastName" : "Yakshini",
     "email" : "yamini@gmail.com"
   },
   {
     "id" : 3,
-    "firstName" : "Abhimanyu",
+    "first_Name" : "Abhimanyu",
     "lastName" : "Poojari",
     "email" : "abhimanyu@gmail.com"
   },
   {
     "id" : 4,
-    "firstName" : "Dayna",
+    "first_Name" : "Dayna",
     "lastName" : "Dayantika",
     "email" : "dayna@gmail.com"
   },
   {
     "id" : 5,
-    "firstName" : "Arabindo",
+    "first_Name" : "Arabindo",
     "lastName" : "Chatarji",
     "email" : "arabindo@gmail.com"
   },
   {
     "id" : 6,
-    "firstName" : "Kachinder",
+    "first_Name" : "Kachinder",
     "lastName" : "Saudaya",
     "email" : "kachinder@gmail.com"
   },
   {
     "id" : 7,
-    "firstName" : "Kaypar",
+    "first_Name" : "Kaypar",
     "lastName" : "George",
     "email" : "kaypar@gmail.com"
   },
   {
     "id" : 8,
-    "firstName" : "Varchaswini",
+    "first_Name" : "Varchaswini",
     "lastName" : "Deshmukh",
     "email" : "varchaswini@gmail.com"
   },
   {
     "id" : 9,
-    "firstName" : "Tara",
+    "first_Name" : "Tara",
     "lastName" : "Baby",
     "email" : "Tara@gmail.com"
   },
   {
     "id" : 10,
-    "firstName" : "Kameshwari",
+    "first_Name" : "Kameshwari",
     "lastName" : "Yakshini",
     "email" : "kameshwari@gmail.com"
   }
